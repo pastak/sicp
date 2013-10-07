@@ -1,0 +1,50 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{listings}
+\begin{document}
+\title{第一回事前課題}
+\author{工学部情報学科\\
+平成25年入学\\
+学籍番号：1029-25-2723\\
+森井 崇斗 }
+\date{\today}
+\maketitle
+
+\lstset{numbers=left,basicstyle=\ttfamily\small,
+  commentstyle=\textit, keywordstyle=\bfseries}
+
+\section{想定質問}
+
+以下の半径の円の直径と面積をそれぞれ求めるプログラムを作成せよ\\
+ただし、円周率は3.14159とする。\\
+\begin{enumerate}
+    \item 半径6
+    \item 半径10
+    \item 半径15
+\end{enumerate}
+
+\section{想定質問への回答}
+
+\lstinputlisting{circle.scm}
+\subsection{計算結果}
+\begin{enumerate}
+    \item 半径6
+        \begin{itemize}
+            \item 直径：37.699079999999995
+            \item 面積：113.09724
+        \end{itemize}
+    \item 半径10
+        \begin{itemize}
+            \item 直径：62.8318
+            \item 面積：314.159
+        \end{itemize}
+
+    \item 半径15
+        \begin{itemize}
+            \item 直径：94.2477
+            \item 面積：706.85775
+        \end{itemize}
+\end{enumerate}
+
+
+\end{document}
+
