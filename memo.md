@@ -1,6 +1,8 @@
 # アルゴリズムとデータ構造入門授業メモ
 
-## 第２回資料
+## 第２回
+
+__ 2013/10/8 __
 
 ### 階上のプログラムを書いてみよう
 
@@ -27,6 +29,8 @@
 
 `(define (square x) (* x x))`  
  to square something, multiply it by itself  
+
+### practice
 
 1. (cube x) => x^3
     - [2/cube.scm](2/cube.scm)

@@ -5,8 +5,9 @@ to get 単位!!!!!!!!!!!!
 
 # Contents
 
+- [memo.md](memo.md): 授業メモ
 - ディレクトリの数字 = 各課題番号
-- 2lambda.txt: 関数宣言をlambda式を使ったものに書き換える(vim用)
+- [2lambda.txt](2lambda.txt): 関数宣言をlambda式を使ったものに書き換える(vim用)
     - from [https://github.com/tyage/algds](https://github.com/tyage/algds)
 
 # Links
