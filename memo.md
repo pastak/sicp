@@ -36,3 +36,30 @@
     - [2/cube.scm](2/cube.scm)
 2. (foo x) = > 3x^2 + 2x + 1
     - [2/foo.scm](2/foo.scm)
+
+### 対(pair)とシーケンス(sequences)
+
+||(cons 1 2)|(cons 1 nil)|
+|ドット記法|(1 . 2)|(1 . nil ) or (1)|
+||[1,2]|[1,null] or [1]|
+
+`(list 1 2 3 4)`
+`(cons 1 (cons 2 (cons 3 (cons 4))))`
+
+```scheme
+(define bar (list 1 2 3 4))
+ bar =>
+ (car bar) => 
+ (car bar) => (2 3 4)
+ (car (car bar)) => 2
+```
+
+```scheme
+(cadr bar)
+(caddr bar) => 3
+(cddr bar) => (3 4)
+(cddr bar) => (4)
+(cddr bar) => ()
+```
+
+
