@@ -39,9 +39,9 @@
 
 ### 対(pair)とシーケンス(sequences)
 
-||(cons 1 2)|(cons 1 nil)|
-|ドット記法|(1 . 2)|(1 . nil ) or (1)|
-||[1,2]|[1,null] or [1]|
+|  | `(cons 1 2)` | `(cons 1 nil)` |
+| ドット記法 | `(1 . 2)` | `(1 . nil )` or `(1)` |
+|  | `[1,2]` | `[1,null]` or `[1]` |
 
 `(list 1 2 3 4)`
 `(cons 1 (cons 2 (cons 3 (cons 4))))`
