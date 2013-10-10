@@ -12,6 +12,12 @@ to get 単位!!!!!!!!!!!!
 
 # Links
 
+設定とかのメモ代わり。
+
+- [Introduction to Algorithms and Data Structures (SICP, 計算機プログラムの構造と解釈), 2013](http://winnie.kuis.kyoto-u.ac.jp/members/okuno/Lecture/13/IntroAlgDs/)
+    - 授業ページ。便利情報満載。
 - レポート書く自分用LaTeXテンプレートサンプル[https://gist.github.com/pastak/6865243](https://gist.github.com/pastak/6865243)
 - [Vim-LaTeX - TeX Wiki](http://oku.edu.mie-u.ac.jp/~okumura/texwiki/?Vim-LaTeX)
-
+    - VimでLaTexを良しなに使えるようにするプラグイン。便利。
+- [Scheme - SICPを読むためにやっておくと便利かもしれないこと - Qiita [キータ]](http://qiita.com/da1@github/items/02f7d2f157c7145d58f2)
+    - VimでScheme処理系gaucheのインタプリタを呼び出すプラグインの設定とか。
