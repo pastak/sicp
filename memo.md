@@ -4,7 +4,7 @@
 
 **2013/10/8**
 
-### 階上のプログラムを書いてみよう
+### 階乗のプログラムを書いてみよう
 
 - 数学の記法で書くと
     - n! = 
@@ -47,19 +47,18 @@
 `(cons 1 (cons 2 (cons 3 (cons 4))))`
 
 ```scheme
-(define bar (list 1 2 3 4))
- bar =>
- (car bar) => 
- (car bar) => (2 3 4)
- (car (car bar)) => 2
+(define bar (list 1 2 3 4)) => bar
+ (car bar) => 1
+ (cdr bar) => (2 3 4)
+ (cadr bar) => 2
 ```
 
 ```scheme
-(cadr bar)
+(cadr bar) => 2
 (caddr bar) => 3
 (cddr bar) => (3 4)
-(cddr bar) => (4)
-(cddr bar) => ()
+(cdr (cddr bar)) => (4)
+(cddr (cddr bar)) => ()
 ```
 
 
