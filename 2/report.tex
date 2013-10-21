@@ -1,0 +1,75 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{listings}
+\usepackage{fancybox}
+\begin{document}
+\title{「アルゴリズムとデータ構造入門」\\
+第2回課題}
+\author{工学部情報学科\\
+平成25年入学\\
+学籍番号：1029-25-2723\\
+森井 崇斗 }
+\date{\today}
+\maketitle
+
+\lstset{numbers=left,basicstyle=\ttfamily\small,
+  commentstyle=\textit, keywordstyle=\bfseries}
+
+  \section{階上のプログラムの作成と実行}
+  \subsection{プログラムの内容}
+
+\lstinputlisting{factrial.scm}
+
+\subsection{出力結果}
+
+\fbox{
+    \begin{tabular}{l}
+$>$ (fact 103) \\
+9902900716486180407546715254581773349090165822114492483005280554699876665841\\
+6222832141441073883538492653516385977292093222882134415149891584000000000000\\
+000000000000
+    \end{tabular}
+}
+
+\subsection{説明}
+\begin{enumerate}
+    \item {\tt define}で{\tt (if 〜)}をグローバル変数{\tt fact}に定義し、またその引数として受け取った値を変数{\tt n}に格納します。
+    \item 2行目以降の条件構文では{\tt n}が0以下ならば1を返し、それ以外なら{\tt n}と``{\tt fact}を{\tt n-1}を引数とした際の結果``の乗を返します。
+    \item この部分は再帰的になっているので、$n=1$になるまで{\tt 2.}を繰り返します。\\
+        つまり、{\tt (fact n)}は{\tt (fact n-1)}の結果に{\tt n}を掛けたものを結果とする。この時利用される{\tt (fact n-1)}の結果は{\tt n-1}に{\tt (fact n-2)}の結果を掛けたものになる。・・・というように繰り返し、{\tt (fact 1)}の結果として{\tt 1}と{\tt (fact 0)}の結果を必要とする処理に到達する。この時実行される{\tt (fact 0)}は再帰せずに{\tt 1}を結果として返す。\\
+        ここから逆に辿って行くと$n(n-1)(n-2) \cdots 2\cdot1$という式と同じ計算が行われ、結果として階乗の値が導き出されます。
+\end{enumerate}
+
+\section{教科書1-1-4〜1-2-2の想定質問とその回答}
+
+\subsection{1-1-4より}
+
+\subsubsection{想定質問}
+
+{\tt define}は合成手続きに名前を付けると説明されているが、名前は自由に命名することが可能であるのか？
+
+\subsubsection{想定質問への回答}
+
+Schemeには他のプログラミング言語でいうところの予約語({\em reserved keywords})は存在しません。\\
+つまり、{\tt define}や{\tt if}などを{\tt define}で再定義することも許される。\\
+例えば次のようなプログラムを作成実行することも可能です。\\
+\\
+{\bf プログラム例} \\
+\fbox{
+    \begin{tabular}{l}
+(define \\
+    (define x y)\\
+    (* x y)\\
+)
+    \end{tabular}
+}
+\\
+{\bf 実行例}
+\\
+\fbox{
+    \begin{tabular}{l}
+$>$(define 3 5)\\
+15
+\end{tabular}
+}
+\end{document}
+
