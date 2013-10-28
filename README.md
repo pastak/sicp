@@ -14,6 +14,8 @@ to get 単位!!!!!!!!!!!!
 
 設定とかのメモ代わり。
 
+- [Schemeを実行するChrome拡張「chroscheme」を作った - Pastalablog in はてな](http://pastak.hatenablog.com/entry/2013/10/26/222617)
+    - 便利Chrome拡張作った
 - [Introduction to Algorithms and Data Structures (SICP, 計算機プログラムの構造と解釈), 2013](http://winnie.kuis.kyoto-u.ac.jp/members/okuno/Lecture/13/IntroAlgDs/)
     - 授業ページ。便利情報満載。
 - レポート書く自分用LaTeXテンプレートサンプル[https://gist.github.com/pastak/6865243](https://gist.github.com/pastak/6865243)
