@@ -161,7 +161,7 @@ product = counter * product
 
 ```scheme
 (define (fact-i n)
- (fact-iter (1 1 n))
+ (fact-iter 1 1 n)
  )
  (define (fact-iter product counter max-count)
   (if (> counter max-count)
@@ -193,7 +193,7 @@ product = counter * product
   (if (> counter n)
    product
    (iter (* counter product)
-         (+count 1))))
+         (+ counter 1))))
  (iter 1 1)
 )
 ```
