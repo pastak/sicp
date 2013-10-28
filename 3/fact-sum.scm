@@ -1,0 +1,20 @@
+(define (factorial-iter n)
+  (fact-iter 1 1 n)
+  )
+(define (fact-iter product counter max-count)
+  (if (> counter max-count)
+    product 
+    (fact-iter (* counter product)
+               (+ counter 1)
+               max-count
+               )
+    )
+  )
+(define (sum term a next b)
+(if (> a b)
+  0
+  (+ (term a)
+     (sum term (next a) next b))))
+(define (inc n) (+ n 1))
+    (define (sum-facts a b)
+       (sum factorial-smart a inc b))

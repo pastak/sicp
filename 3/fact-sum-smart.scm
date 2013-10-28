@@ -1,0 +1,12 @@
+(define (fact-sum-smart n)
+ (define (iter counter product tmp)
+ (if (< n counter)
+  product
+  (iter (+ counter 1)
+        (+ product (* tmp (+ counter 1)))
+        (* tmp (+ counter 1))
+         )
+ )
+ )
+ (iter 1 1 1)
+ )

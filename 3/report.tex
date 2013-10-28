@@ -1,0 +1,63 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{listings}
+\begin{document}
+\title{「アルゴリズムとデータ構造入門」\\
+第3回課題}
+\author{工学部情報学科\\
+平成25年入学\\
+学籍番号：1029-25-2723\\
+森井 崇斗 }
+\date{\today}
+\maketitle
+
+\lstset{numbers=left,basicstyle=\ttfamily\small,
+  commentstyle=\textit, keywordstyle=\bfseries}
+  \section{繰返型階上のプログラムの作成と実行}
+  \subsection{プログラムの内容}
+
+\lstinputlisting{factorial-iter.scm}
+
+\subsection{出力結果}
+
+\fbox{
+    \begin{tabular}{l}
+$>$ (factorial-iter 103) \\
+9902900716486180407546715254581773349090165822114492483005280554699876665841\\
+6222832141441073883538492653516385977292093222882134415149891584000000000000\\
+000000000000
+    \end{tabular}
+}
+
+\subsection{説明}
+
+\begin{enumerate}
+    \item 初めに引数として{\tt n}を受け取る。
+    \item その{\tt n}を利用して、{\tt fact-iter}を呼び出す。
+    \item {\tt fact-iter}の引数は3つあり、{\tt counter}を{\tt max-count ( = n )}に等しくなるまで1ずつ大きくしていく。
+    \item その{\tt counter}の値を1つずつ掛けた物を{\tt product}に格納する。
+    \item 3と4を繰り返すことで$ 1*2*\cdots(n-1)n $を実現する。
+\end{enumerate}
+
+\section{教科書1-2-3〜1-3-1の想定質問とその回答}
+\subsection{想定質問}
+
+1.3.1で紹介されている{\tt sum}を利用したプログラムを作成せよ。\\
+\\
+参考
+\lstinputlisting{sum.scm}
+
+\subsection{想定質問への解答}
+
+1〜nまでのそれぞれの階乗の和を計算するプログラムを作成する。\\
+愚直に1〜nまでの階乗をそれぞれ求め、それの和を取ることでも求めることが可能であるが、$n!$は${n(n-1)!}$であることを利用して実装する\\
+$n!$を求める際に既に$(n-1)!$の解は求まっているはずであるので、この解を利用すれば計算量を減らすことが可能である。\\
+まず以下に{\tt sum}をそのまま利用した場合の実装例を示す。
+
+\lstinputlisting{fact-sum.scm}
+
+次に前述の方法で計算量を減らした場合の実装例を示す。
+
+\lstinputlisting{fact-sum-smart.scm}
+
+\end{document}
+
