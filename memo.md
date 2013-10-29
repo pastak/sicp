@@ -211,4 +211,260 @@ product = counter * product
     - 末尾再帰と線形反復では約2倍の高速化
 - コンパイラーが最適化を行うので、末尾再帰のコードをコンパイルすると線形反復に最適化されるので、同じコードが生成される。
 
+# 第4回
+
+**2013/10/29**
+
+## improveの設計
+
+```
+(define (improve guess x)
+ (average guess (/ x guess)))
+```
+
+- √を求めるには、面積が√の中になる正方形の辺の長さを求めれば良い。
+- 適当な値から中央値を取って近似させていく
+
+## Square Root By Newton's Method
+
+```
+(define (sqrt-iter guess x)
+ (if (good-enough? guess x)
+  guess
+  (sqrt-iter (improve guess x) x) ))
+(define (improve guess x)
+ (average guess (/ x guess)))
+(define (average x y)
+ (/ (+ x y) 2))
+(define (good-enough? guess x)
+    (< (abs (- (square guess) x)) 0.001))
+(define (sqrt x) (sqrt-iter 1.0 x))
+```
+
+### 手続き分解
+```
+`sqrt` -- `sqrt-iter`  
+                |  
+                -- good-enough?  
+                |   |  
+                |   -- `square`  
+                |   -- `abs`  
+                -- improve  
+                    |  
+                    -- `average`  
+```
+### 手続き抽象化の効用　`square`の定義
+
+1. 内部実装の隠蔽
+
+- 
+```scheme
+(define (square x) (* x x))
+``` 
+- 
+```scheme
+(define (square x)
+        (exp (double (log x))))
+    (define (double x) (+ x x))
+```
+    - `e^(2log(x)) = e^(log(x^2)) = x^2`
+    - 計算機内では2進数で扱われるので、`double`などを用いるほうが高速
+
+2. 局所名の隠蔽 
+
+- `(define (square x) (* x x))`
+- `(define (square y) (* y y))`
+
+
+## 束縛変数と自由変数
+
+- 束縛変数
+    - 仮パラメータは手続きで束縛
+- 自由変数
+    - 束縛(capture)されていない
+- 有効範囲(scope)
+    - 変数の束縛されている式の範囲
+
+## ブロック構造：xの有効範囲は？
+```scheme
+(define (sqrt x)
+     (define (sqrt-iter guess x)
+      (if (good-enough? guess x)
+       guess
+       (sqrt-iter (improve guess x) x) ))
+     (define (improve guess x)
+      (average guess (/ x guess)))
+     (define (average x y)
+      (/ (+ x y) 2))
+     (define (good-enough? guess x)
+      (< (abs (- (square guess) x)) 0.001))
+(sqrt-iter 1.0 x))
+```
+    - それぞれの`x`の有効範囲は？
+
+- 静的有効範囲
+
+## ハノイの塔問題
+
+1. 一度には１枚の円盤しか動かせない
+2. 小さい円盤の上には大きな円盤は置けない
+
+```
+    |   |   |
+    |   |   |
+    1   2   3
+```
+```scheme
+(define (move-tower size from to extra)
+ (cond ((= size 0) #true)
+  (else
+   (move-tower (- size 1) from extra to)
+   (print-move from to)
+   (move-tower (- size 1) extra to from))
+ ))
+(define (print-move from to)
+    (newline)
+    (display "move top disk from")
+    (display from)
+    (display "to")
+    (display to))
+(define (solbe-tower-of-hanoi size from to)
+ (move-tower size from to (- 6 from to)))
+```
+```
+     |           |        |
+    |||          |       |||
+   |||||       |||||    |||||
+     1 from      2 to     3 extra
+```
+- `form`から`extra`に一度移してから`to`に戻す
+
+## アッカーマン関数
+- 擬似コード(javascript)で
+
+```javascript
+function Ack(m,n){
+    if(m = 0) n+1
+    elseif(n = 0) Ack(m-1, 1)
+    else Ack(m-1, Ack(m,n-1)
+}
+```
+
+### `Ack(1,2)`
+
+- `Ack(1,2)`
+- `Ack(0, Ack(1,1))`
+- `Ack(1,1)+1`
+- `Ack(0, Ack(1,0))+1`
+- `Ack(1,0)+2`
+- `Ack(0,1)+2`
+- `1+1+2`
+- `4`
+
+## 宿題１
+
+### 練習問題
+
+- `(ack 0 2)`
+- `(ack 1 2)`
+- `(ack 2 2)`
+- `(ack 3 2)`
+
+計算過程を書くこと
+
+### 随意課題
+
+それぞれ理由も記せ
+
+1. `(ack 0 n) ≡ n+1`
+2. `(ack 1 n) ≡  ?`
+3. `(ack 2 n) ≡ ?`
+4. `(ack 3 n) ≡  ?`
+5. `(ack 4 n) ≡  ?`
+
+## 練習問題
+
+1. １ドルの両替方法は何通り？
+
+```scheme
+(define (count-change amount)
+         (cc amount 5))
+(define (cc amound kinds-of-coins)
+ (cond ((= amount 0) 1)
+  ((or (< amount 0) (= kinds-of-coins 0)) 0)
+  (else 
+   (+ (cc amount (- kinds-of-coins 1))
+      (cc (- amount
+           (first-denomination
+                kinds-of-coins))
+       kinds-of-coins)))))
+(define (first-denomination kinds-of-coins)
+    (cond ((= kinds-of-coins 1) 1)
+      ((= kinds-of-coins 2) 5)
+      ((= kinds-of-coins 3) 10)
+      ((= kinds-of-coins 4) 20)
+      ((= kinds-of-coins 5) 50)
+      )
+)
+```
+
+## Order of Growth
+
+### R(n)はステップ数あるいはスペース量
+
+- R(n)がΘ(f(n))
+    - 上下限
+- R(n)がO(n)
+    - 上限
+- R(n)がΩ(n)
+    - 下限
+
+### 例
+
+- Θ(1)
+    - constant growth
+- Θ(n)
+    - linear growth
+- Θ(b^n)
+    - exponential growth
+- Θ(log(n))
+    - logarithmic growth
+- Θ(n^m)
+    - power law growth
+
+## フィボナッチ数列
+
+- うさぎのつがい
+- 内部反射回数
+
+### 定義
+```javascript
+function fib(n){
+    if (n = 0) 0
+    elseif (n = 1) 1
+    else fib(n-1) + fib(n-2) 
+}
+```
+
+```scheme
+(define (fib n)
+ (cond ((= n 0) 0)
+       ((= n 1) 1)
+       (else (+ (fib (- n 1))
+                (fib (- n 2)))))
+)
+```
+
+### fibonacci function (iteration)
+
+```scheme
+(define (fib-i n)
+ (define (iter a b count)
+  (if (= count 0)
+   b
+   (iter (+ a b) a (- count 1))))
+ (iter 1 0 n)
+)
+```
+
 
