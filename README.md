@@ -9,6 +9,12 @@ to get 単位!!!!!!!!!!!!
 - ディレクトリの数字 = 各課題番号
 - [2lambda.txt](2lambda.txt): 関数宣言をlambda式を使ったものに書き換える(vim用)
     - from [https://github.com/tyage/algds](https://github.com/tyage/algds)
+- [submit.sh](submit.sh): 提出用にpdfをリネームして、ついでにメーラーも呼び出すシェルスクリプト。
+    - 引数にディレクトリの数字(= 課題番号)を与えるとリネームしてくれる。便利。変数は以下の通り。メール本文もそれなりに生成してくれる。
+        - NAME : 英字綴りの名前
+        - JNAME : 漢字綴りの名前
+        - NUMBER : 学生番号
+        - PDFFILENAME : TeXで生成されるpdfのファイル名。自分の場合は毎回`report.tex`から`report.pdf`を生成してるからそういうの。
 
 # Links
 
