@@ -1,0 +1,163 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{listings}
+\begin{document}
+\title{「アルゴリズムとデータ構造入門」\\
+第4回課題}
+\author{工学部情報学科\\
+平成25年入学\\
+学籍番号：1029-25-2723\\
+森井 崇斗 }
+\date{\today}
+\maketitle
+
+\lstset{numbers=left,basicstyle=\ttfamily\small,
+  commentstyle=\textit, keywordstyle=\bfseries}
+
+\section{ Fibonacci数の再帰型と繰り返し型手続きについて，ファイルを作成せよ}
+fib.scm内に記述。\\
+\begin{itemize}
+    \item 再帰型：{\tt fib}
+    \item 繰返型：{\tt fib-i}
+\end{itemize}
+\lstinputlisting{fib.scm}
+
+\section{2種類のFibonacci数の手続きを実行し，fib(10)，fib(20),fib(30) の出力結果を求めよ}
+
+\fbox{
+    \begin{tabular}{l}
+$>$ (fib 10)\\
+55\\
+$>$ (fib 20)\\
+6765\\
+$>$ (fib 30)\\
+832040\\
+$>$ (fib-i 10)\\
+55\\
+$>$ (fib-i 20)\\
+6765\\
+$>$ (fib-i 30)\\
+832040\\
+    \end{tabular}
+}
+
+\section{ 2種類のFibonacci数の手続きを使ったfib(n) 実行時に fib が呼ばれる回数を，それぞれ解析的に求めよ．}
+
+\subsection{fibが呼ばれる回数について}
+
+{\tt fib}を呼び出した時、$n = 0 or 1$ の時は1回の呼び出しで終了する。\\
+$n > 1$の時、{\tt fib(n)}実行時に{\tt fib}が呼ばれる回数を{\tt fibnum(n)}とすると、$ fibnum(n) = fibnum(n-1) + fibnum(n-2)$と表される。\\
+
+\subsection{fib-i内のiterが呼ばれる回数について}
+
+{\tt fib-i}を呼び出した時、内部で定義された手続きである{\tt iter}は{\tt fib-i(n)}に対して、{\tt n+1}回である。
+
+
+\section{アッカーマン関数に関する練習問題}
+
+\subsection{(ack 0 2)}
+\begin{itemize}
+    \item 2
+\end{itemize}
+\subsection{(ack 1 2)}
+\begin{itemize}
+    \item (ack 0 (ack 1 1))
+    \item (ack 1 1) +1
+    \item (ack 0 (ack 1 0)) +1
+    \item (ack 1 0) +1 +1
+    \item (ack 0 1) +2
+    \item 2 +2
+    \item 4
+\end{itemize}
+\subsection{(ack 2 2)}
+\begin{itemize}
+    \item (ack 1 (ack 2 1))
+    \item (ack 1 (ack 1 (ack 2 0)))
+    \item (ack 1 (ack 1 (ack 1 1)))
+    \item (ack 1 (ack 1 (ack 0 (ack 1 0))))
+    \item (ack 1 (ack 1 (ack 0 (ack 0 1))))
+    \item (ack 1 (ack 1 (ack 0 2)))
+    \item (ack 1 (ack 1 3))
+    \item (ack 1 (ack 0 (ack 1 2)))
+    \item (ack 1 (ack 0 4)) \#授業資料より(ack 1 2)の結果は4と導出済
+    \item (ack 1 5)
+    \item (ack 0 (ack 1 5))
+    \item (ack 0 (ack 0 (ack 1 4)))
+    \item (ack 0 (ack 0 (ack 0 (ack 1 3))))
+    \item (ack 0 (ack 0 (ack 0 (ack 0 (ack 1 2)))))
+    \item (ack 0 (ack 0 (ack 0 (ack 0 4))))
+    \item (ack 0 (ack 0 (ack 0 5)))
+    \item (ack 0 (ack 0 6))
+    \item (ack 0 7)
+    \item 8
+\end{itemize}
+\subsection{(ack 3 2)}
+\begin{itemize}
+    \item (ack 2 (ack 3 1))
+    \item (ack 2 (ack 2 (ack 3 0)))
+    \item (ack 2 (ack 2 (ack 2 1)))
+    \item (ack 2 (ack 2 (ack 1 (ack 2 0))))
+    \item (ack 2 (ack 2 (ack 1 (ack 1 1))))
+    \item (ack 2 (ack 2 (ack 1 (ack 0 (ack 1 0)))))
+    \item (ack 2 (ack 2 (ack 1 (ack 0 (ack 0 1)))))
+    \item (ack 2 (ack 2 (ack 1 (ack 0 2))))
+    \item (ack 2 (ack 2 (ack 1 3)))
+    \item (ack 2 (ack 2 (ack 0 (ack 1 2))))
+    \item (ack 2 (ack 2 (ack 0 4)))
+    \item (ack 2 (ack 2 5))
+    \item (ack 2 (ack 1 (ack 2 4)))
+    \item (ack 2 (ack 1 (ack 1 (ack 2 3))))
+    \item (ack 2 (ack 1 (ack 1 (ack 1 (ack 2 2)))))
+    \item (ack 2 (ack 1 (ack 1 (ack 1 (ack 1 (ack 2 1))))))
+    \item (ack 2 (ack 1 (ack 1 (ack 1 (ack 1 (ack 1 (ack 2 0)))))))
+    \item (ack 2 (ack 1 (ack 1 (ack 1 (ack 1 (ack 1 (ack 1 1)))))))
+    \item (ack 2 (ack 1 (ack 1 (ack 1 (ack 1 (ack 1 (ack 0 (ack 1 0))))))))
+    \item (ack 2 (ack 1 (ack 1 (ack 1 (ack 1 (ack 1 (ack 0 (ack 0, 1))))))))
+    \item (ack 2 (ack 1 (ack 1 (ack 1 (ack 1 (ack 1 (ack 0 2)))))))
+    \item (ack 2 (ack 1 (ack 1 (ack 1 (ack 1 (ack 1 3))))))
+    \item (ack 2 (ack 1 (ack 1 (ack 1 (ack 1 5)))))
+    \item (ack 2 (ack 1 (ack 1 (ack 1 8))))
+    \item (ack 2 (ack 1 (ack 1 (ack 0 (ack 1 7)))))
+    \item (ack 2 (ack 1 (ack 1 (ack 0 (ack 0 (ack 1 6))))))
+    \item (ack 2 (ack 1 (ack 1 (ack 0 (ack 0 (ack 0 (ack 1 5))))))
+    \item (ack 2 (ack 1 (ack 1 (ack 0 (ack 0 (ack 0 8))))))
+    \item (ack 2 (ack 1 (ack 1 (ack 0 (ack 0 9)))))
+    \item (ack 2 (ack 1 (ack 1 (ack 0 10))))
+    \item (ack 2 (ack 1 (ack 1 11)))
+    \item (ack 2 (ack 1 13)) \# ここから中略
+    \item (ack 2 15)
+    \item 33
+\end{itemize}
+※ただし、これについては(ack 3 2)は29を返すべきであるので、途中で計算を誤っている。
+
+\section{教科書 1-3-2 ~ 1-3-4 を読み、想定質問とそれへの解答と説明を記述せよ}
+
+\subsection{想定質問}
+
+教科書の該当部分ではlambdaを用いた手続きの構築について記述されていた。\\
+lambdaと同等の仕組みとして、例えばJavascriptでは無名関数( {\it anonymous function} )という機能が実装されており、これによって、Schemeのlambda式を再現することが可能である。\\
+例えば、教科書内で紹介されていた\\
+$ f(x,y) = x(1+xy)^2 + y(1-y) + (1+xy)(1-y)$
+lambda式を用いて実装するSchemeのコードをJavascriptの無名関数を用いて実装するとどのように書くことが出来るか。
+
+\subsection{想定質問への解答と解説}
+\subsubsection{想定質問への解答}
+上記の計算式はJavascriptで無名関数を利用すると次のように記述できる。
+\lstinputlisting{lambda.js}
+\subsubsection{解説}
+
+Javascriptでは無名関数という機能を提供している。\\
+これは Scheme で書くと、\\
+\fbox{
+    (lambda ({\it $<$formal-parameters$>$} {\it $<$body$>$})
+}\\
+と同等のものを\\
+\fbox{
+    (function ({\it $<$formal-parameters$>$}) \{{\it $<$body$>$}\})
+}\\
+と記述することで再現可能にするものである。\\
+また、Javascriptでこの記法を用いることで再現できることには、変数スコープが静的であることに由来している。\\
+これを利用し、上記のように記述することでSchemeでlambdaを用いて実装したものをJavascriptで再実装することが可能である。
+
+
+\end{document}
+
