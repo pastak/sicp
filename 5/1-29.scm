@@ -12,9 +12,11 @@
  )
  )
 
+# Simpsonの公式の実行
 (simpson-iter (lambda (x) (* x x x)) 0 1 100)
 (simpson-iter (lambda (x) (* x x x)) 0 1 1000)
 
+# integral手続きの実装
 (define (cube x) (* x x x))
 
 (define (sum term a next b)
@@ -28,3 +30,6 @@
   (* (sum f (+ a (/ dx 2.0)) add-dx b)
      dx))
 
+# integral手続きの実行
+(integral cube 0 1 0.01)
+(integral cube 0 1 0.001)
