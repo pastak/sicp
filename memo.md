@@ -467,4 +467,70 @@ function fib(n){
 )
 ```
 
+# 第５回
 
+**2013/11/5**
+
+## `Fib`の呼ばれる回数 `C(n) = F(n) - 1`
+
+- `n >= 2` に対して、`C(n) = C(n-1)+C(n-2)+1`
+- `F(n) = C(n)+1` とおくと
+- `F(n)-F(n-1)+F(n-2)` for `n>=2`
+- `F(0)=2`, `F(1)=2`
+
+### 練習問題
+
+|手続き|ステップ数|スペース|
+|再帰型|2/√5 O(Φ^n)|O(Φ^n)|
+|繰返型|n+1 O(n)|O(1)|
+|テーブル参照型|1 O(1)|O(n)|
+
+## べき乗を計算する
+
+```scheme
+(define (fast-expt b n)
+ (cond ((= n 0) 1)
+       ((even? n)
+        (square (fast-expt b (/ n 2))))
+       (else
+        (* b (fast-expt b (- n 1))) )))
+(define (even? n)
+ (= (remainder n 2) 0) )
+```
+
+### べき乗を計算するアルゴリズム
+
+- X^16
+- 16=10000(2)より２進数を４回左シフト
+1. まず,1を`SX`,0を`S`で置換
+2. 先頭の`SX`を除く
+3. 得られた`S`と`X`を`Square`、`xをかける`と読む
+
+#### 例 X^23
+
+- 23= 10111(2)
+1. SX S SX SX SX
+2. S SX SX SX
+
+## 最大公約数を求める
+
+### ユーグリッドの互除法
+
+- a mod b = r
+- GCD(a, b) = GCD(b, r)
+
+が成立する。
+
+```scheme
+(define (gcd a b)
+ (if (= b 0)
+  a
+  (gcd b (remainder a b)) ))
+```
+## 合同式
+
+- `a≡b mod n` (congruent modulo n)
+    - 「a mod n と b mod n が等しい」
+- x modulo nは剰余
+- a+b mod n ≡  (a mod n + b mod n) mod n
+- a*b mod n ≡  (a mod n * b mod n) mod n
