@@ -534,3 +534,181 @@ function fib(n){
 - x modulo nは剰余
 - a+b mod n ≡  (a mod n + b mod n) mod n
 - a*b mod n ≡  (a mod n * b mod n) mod n
+
+## 第６回
+
+**2013/11/12**
+
+
+- `∑i = a + ∑(a→b)i`
+
+```scheme
+(define (sum-integers a b)
+ (if (> a b)
+  0
+  (+ a (sum-integers (+ a 1) b))))
+```
+
+- `∑i = f(a) + ∑f(i)`
+
+```scheme
+(define (sum-f a b)
+ (if (> a b)
+  0
+  (+ (f a) (sum-f (sum-f (+ a 1) b)))))
+```
+
+- `∑(i=a,next(i)→b) {f(i)}`
+    - fの関数の中身: term
+    - 値の増え方: next
+
+```scheme
+(define (sum term a next b)
+ (if (> a b)
+  0
+  (+ (term a)
+     (sum term (next a) next b))))
+```
+↓
+```scheme
+(define (sum-integers a b)
+ (define (inc x) (+ x 1))
+ (sum f a inc b))
+```
+
+- `Π(a -> b)(i) = a * Π(a+1 -> b)(i)`
+
+```scheme
+(define (product-integers a b)
+ (if (> a b)
+  1
+  (* a (product-integers (+ a 1) b)))
+ )
+```
+
+- `Π(a -> b)f(i) = f(a) * Π(a+1 -> b)f(i)`
+
+```scheme
+(define (product-f a b)
+ (if (> a b)
+  1
+  (* (f a) (product-f (+ a 1) b))))
+```
+
+```scheme
+(define (product term a next b)
+ (if (> a b)
+  1
+  (* (term a)
+     (product term (next a) next b))))
+```
+
+## `sum`と`product`を統合する
+
+```scheme
+(define (accumulate combiner null-value term a next b)
+    (if (> a b)
+      null-value
+      (combiner (term a)
+       (accumulate combiner null-value term (next a) b))))
+```
+
+- `combiner`は`sum`を再現するなら`+`、`product`を再現するなら`*`を与える
+
+### `factrial`を書いてみる
+
+```scheme 
+(define (factrial n)
+ (accumulate * 1 identity 1 inc n))
+```
+
+## `lambda`: 無名（匿名）手続き
+
+`(define (plus4 x) (+ x 4))`は`(define (plus4 (lambda (x) (+ x 4))))`と等価。
+
+### ラムダ式の適用
+
+- `((lambda (x y z)(+ x y (square z))) 1 2 3)`
+    - x=1, y=2, z=3 を代入して実行
+- `(+ 1 2 (square 3))`
+
+## `let`: to create local variables
+
+- `f(x,y) = x(1+xy)^2 + y(1-y) + (1+xy)(1-y)`を解くのに補助変数を使いたい
+
+```scheme
+(define (f x y)
+ (define (f-helper a b)
+  (+ (* x (square a)
+      (* y b)
+      (* a b) )))
+  (f-helper
+   (+ 1 (* x Y)
+    (- 1 y)))
+ )
+```
+
+```scheme
+(define (f x y)
+ (let ((a (+ 1 (* x y)))
+       (b (- 1 y)))
+    (+ (* x (aquare a))
+     (* y b)
+     (* a b) )))
+```
+
+##変数スコープ
+
+```scheme
+(let ((x 7))
+ (+ (let ((x 3))
+     (+ x (* x 10)) )
+  x) )
+```
+
+```scheme
+(let ((x 3))
+     (+ x (* x 10)) )
+=> 33
+```
+
+```scheme
+(let ((x 7))
+ (+ 33  x) )
+=> 40
+```
+
+### `let*`は変数を順番に評価
+
+```scheme
+(let ((x 5))
+ (let* ((x 3)
+        (y (+ x 2)) )
+  (* x y) ))
+```
+
+## 自己参照
+
+![http://1.bp.blogspot.com/_pYQtk7V1m4I/S5TRrK9GJeI/AAAAAAAABQ4/za4QnJQ69BU/s400/What+is+the+Name+of+this+Book+Raymond+Smullyan.jpg](http://1.bp.blogspot.com/_pYQtk7V1m4I/S5TRrK9GJeI/AAAAAAAABQ4/za4QnJQ69BU/s400/What+is+the+Name+of+this+Book+Raymond+Smullyan.jpg)
+
+
+
+# 第2章
+
+- 第1章は**手続き抽象化**
+- 第2章は**データ抽象化**
+    - 基本データ構造
+    - 合成データオブジェクト
+- データ抽象化で手続きの意味を拡張
+
+__「具体から抽象へは行けるが、抽象から具体へは行けない」__
+
+## データ抽象化
+
+1. 構成子(constructor)
+2. 選択子(selector)
+3. 述語(predicate)
+4. 入出力(input-output)
+
+次回は有理数から
+
