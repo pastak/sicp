@@ -1,0 +1,8 @@
+(define (same-parity . numbers)
+ (define (iter parity numbers result)
+  (if (null? (cdr numbers)) (append result (list (car numbers)))
+  (if (= parity (remainder (car numbers) 2))
+   (iter parity (cdr numbers) (append result (list (car numbers))))
+   (iter parity (cdr numbers) result)
+  )))
+ (iter (remainder (car numbers) 2) (cdr numbers) (list(car numbers) )))
