@@ -714,3 +714,182 @@ __「具体から抽象へは行けるが、抽象から具体へは行けない
 - 課題
     - 2.1.3 ~ 2.2.2までを読む
     - ex 2.17 ~ 2.28
+
+## 第７回
+
+**2013/11/19**
+
+### JMC
+
+```scheme
+(define (jmc n)
+ (if (> n 100)
+  (- n 10)
+  (jmc (jmc (+ n 11)))
+ ))
+```
+
+## 有理数表現
+
+### 1. 構成子
+
+`(make-rat <n> <d>)`
+
+### 2. 選択子
+
+`(numer <x>)`  
+`(denom <x>)`
+
+### 3. 述語
+
+`(rational? <x>)`  
+`(equal-rat <x> <y>)`
+
+### 動詞の実装
+
+#### 足し算
+
+```scheme
+(define (add-rat x y)
+ (make-rat (+ (* (numer x)(denom y))
+              (* (denom x)(numer y)))
+           (* (denom x)(denom y))))
+```
+
+### 引き算
+```scheme
+(define (sub-rat x y)
+ (make-rat (- (* (numor x)(denom y))
+              (* (denom x)(numor y)))
+           (* (denom x)(denom y))))
+```
+
+### 掛け算
+
+```scheme
+(define (mul-rat x y)
+ (make-rat (* (numer x)(numer y))
+           (* (denom x)(denom y))))
+```
+
+### 割り算
+
+```scheme
+(define (div-rat x y)
+ (make-rat (* (numer x)(denom y))
+           (* (denom x)(numer y))))
+```
+
+### 等価
+
+```scheme
+(define (equal-rat? x y)
+ (= (* (numer x)(denom y))
+    (* (denom x)(numer y))))
+```
+## 有理数を表現する
+
+- ペア（対, pair）で表現する
+    - `(define (make-rat n d) (cons n d))`
+
+`(define (numer x)(car x))`  
+`(define (denom x)(cdr x))`  
+
+**この表現では不十分**
+
+- 分母が０になる可能性
+- 既約分数に直す必要
+
+### どの時点で既約化するのか
+
+- `make-rat`で行う？
+- `denom`や`numer`で行う？
+    - `denom`や`numer`を利用する回数が多いなら、コストになる？
+
+#### 抽象化の壁から見る
+ 
+- `add-rat`や`sub-rat`などから`make-rat`を利用する
+
+## ペア再考
+
+`(make-rat n d)`が満たすべき条件
+
+1. 通常のセルで構築：
+    - 構築子: cons
+    - 選択子: car, cdr
+2. 以下の手続きで構築
+```scheme
+(define (make-rat n d)
+ (define (dispatch m)
+  (cond ((= m 0) n)
+        ((= m 1) d)
+        (else (error ""))))
+ dispatch )
+;ここまで構築子
+```
+
+### もっとスマートにペアを実装
+
+```scheme
+(define (cons x y)
+ (lambda (m) (m x y)))
+(define (car z)
+ (z (lambda (p q) p)))
+(define (cdr z)
+ (z (lambda (p q) q)))
+```
+
+- `(define (foo (cons 10 25)))`
+    - `(lambda (m) (m 10 25))`
+- `(car foo)`
+    - `((lambda (m) (m 10 25)) (lambda (p q) p))`
+    - `((lambda (p q) p) 10 25)`
+    - `10`
+
+## リスト処理演算
+
+- `(null? <e>)`
+    - `<e>`がnilか
+- `(eq? <e1> <e2>)`
+    - `<e1>`と`<e2>`が同じオブジェクトか
+- `(cons <e1> <e2>)`
+    - `<e1>`と`<e2>`からpairを生成
+- `(car <pair>)`
+- `(cdr <pair>)`
+
+## リスト演算
+
+```scheme
+(define (list-ref items n)
+ (define (iter count li)
+  (cond ((null? (cdr li))())
+        ((= count n)(car li))
+        (else 
+         (iter (+ count 1) (cdr li))))
+ )
+ (if (pair? items)(iter 0 items)
+                  () ;itemがリストじゃなければ()を返す
+  )
+ )
+```
+
+```scheme
+(define (length items)
+ (if (null? items)
+  0
+  (+ 1 (length (cdr items)))))
+```
+
+↓
+
+```scheme
+(define (length-i items)
+ (define (iter count items)
+  (if (null? (cdr items))
+       count
+       (iter (+ count 1) (cdr items)))
+ )
+ (if (null? items) 
+  0
+  (iter 1 items)))
+```
